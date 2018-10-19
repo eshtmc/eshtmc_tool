@@ -3,88 +3,7 @@
 from bs4 import BeautifulSoup
 import json
 import os
-
-md_path_dir = "../education/meetings/2018.10-2018.03/"
-MEETING_COUNT = 106
-MEETING_THEME = "The Mid-Autumn Festival"
-MEETING_DATE = "2018.09.21"
-TableTopic = "Xin Feng, Jing Shao, Dongchen Tang, Jony Zheng"
-PERPARED_SPEACKERS = [{
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
-    },
-    {
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
-    },
-    {
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
-    },
-    {
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
-    },
-    {
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
-    },
-    {
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
-    }
-]
-BestTableTopicSpeech = "Dongchen Tang"
-BestPreparedSpeech = "Michelle Jin"
-BestEvaluator = "Elvis Jiang"
-ROLE_TAKERS = {
-    "TMD": "",
-    "TTM": "",
-    "GE": "",
-    "IE": "",
-    "Grammarian": "",
-    "Timer": "",
-    "Ah-counter": ""
-}
-AttendanceName = "Siyuan Jia,Dongchen Tang,Yi Fang,Taowen Zhang,Elvis Jiang,Michelle Jin,Jun Liu,Wujie Zhang,Xin Feng,Nrapendra Singh, Yayun Sun, Anne,Jony Zheng,Michelle Wang"
-
-
-template_attendance_for_create_html = """<h1>Attendance</h1>
-<table class="table table-condensed table-bordered">
-<tr><th>Name</th></tr>
-<tr><th>Jenny Yu</th></tr>
-<tr><th>Huihui Jiang</th></tr>
-<tr><th>Jony Zheng</th></tr>
-<tr><th>Michelle Wang</th></tr>
-<tr><th>Dongchen Tang</th></tr>
-<tr><th>Michelle Hua</th></tr>
-<tr><th>Jane Gong</th></tr>
-<tr><th>Taowen Zhang</th></tr>
-<tr><th>Yi Fang</th></tr>
-<tr><th>Hongyu Qi</th></tr>
-<tr><th>Qingzhen Deng</th></tr>
-<tr><th>Siyuan Jia</th></tr>
-<tr><th>Michelle Jin</th></tr>
-<tr><th>Alice Huang</th></tr>
-<tr><th>Xin Feng</th></tr>
-<tr><th>Sarah Zhang</th></tr>
-<tr><th>Wujie Zhang</th></tr>
-<tr><th>Yao Fang</th></tr>
-<tr><th>Elvis Jiang</th></tr>
-<tr><th>Nrapendra Singh</th></tr>
-<tr><th>Hong Wang</th></tr>
-<tr><th>Jun Liu</th></tr>
-<tr><th>Total</th></tr>
-</table>      
-"""
-
-
+from config import *
 
 class Agenda:
     def __init__(self, md_path):
@@ -151,7 +70,7 @@ class Agenda:
                                                              self.md_type_data["date"])
         for key, value in self.md_type_data["best_awards"].items():
             if value != "":
-                add_content = add_content + "{0} {1} \n".format(self.transform_str(key), value)
+                add_content = add_content + "{0} {1}    \n".format(self.transform_str(key), value)
 
         print(add_content)
         with open(os.path.join(self.md_path, "best-awards.md"), "a+") as f:
@@ -173,7 +92,7 @@ class Agenda:
                                                              self.md_type_data["date"])
         for key, value in self.md_type_data["role_takers"].items():
             if value != "":
-                add_content = add_content + "`{0}` {1} \n".format(key, value)
+                add_content = add_content + "`{0}` {1}   \n".format(key, value)
 
         print(add_content)
         with open(os.path.join(self.md_path, "role-takers.md"), "a+") as f:
@@ -181,10 +100,7 @@ class Agenda:
 
     def save_attendance(self):
         soup = BeautifulSoup(open(os.path.join(self.md_path, "attendance.html")), "html.parser")
-        # print(soup.prettify())
-        # print(soup.table.contents)
         temp_n = len(soup.find_all('tr'))
-        # print(temp_n, "nnnnnnnnnnnn")
         temp_head = []
         name = []
         data = [[] for i in range(temp_n - 1)]
@@ -207,18 +123,18 @@ class Agenda:
 
         for i in data:
             sum = 0
-            for j in i[1:] :
-                if j !=0 :
+            for j in i[1:]:
+                if j != 0:
                     sum += int(j)
-            print(i[0:1] , sum, i)
+            print(i[0:1], sum, i)
 
         #  TODO up date the temp_head and data
-        if self.md_type_data["date"] not in temp_head:              # new record
+        if self.md_type_data["date"] not in temp_head and temp_head != []:              # new record
             temp_head.append(self.md_type_data["date"])
             data[temp_n - 2].append(0)
             print(temp_head)
             print(self.md_type_data["attendance"]["name"].split(","))
-            temp_attendance_name_list = self.md_type_data["attendance"]["name"].split(",")
+            temp_attendance_name_list = self.md_type_data["attendance"]["name"]. split(",")
             print(data[:temp_n-1])
             for k, value in enumerate(data[:temp_n-2]):
                 # print(k, value)
@@ -260,18 +176,31 @@ class Agenda:
                 html_content += "<th>{0}</th>".format(value)
             html_content += "</tr>\n"
         html_content += "</table>\n"
-        print(html_content)
+        print(HTML_ATTENDANCE_head+html_content+HTML_ATTENDANCE_end)
         with open(os.path.join(self.md_path, "attendance.html"), "w") as f:
-            f.writelines(html_content)
+            f.writelines(HTML_ATTENDANCE_head+html_content+HTML_ATTENDANCE_end)
             print("write....")
 
     def create_new_record(self):
         print(os.path.exists(self.md_path))
         if not os.path.exists(self.md_path):
             os.makedirs(self.md_path)
+            with open("eshtmc.github.io/index.md", "a+") as f:
+                f.writelines("\n" + INDEX_ADD)
+        temp = "#### [Home](https://eshtmc.github.io/)    \n"
         if not os.path.exists(os.path.join(self.md_path, "attendance.html")):
             with open(os.path.join(self.md_path, "attendance.html"), "w") as f:
-                f.writelines(template_attendance_for_create_html)
+                f.writelines(HTML_ATTENDANCE_head+New_Table+HTML_ATTENDANCE_end)
+        if not os.path.exists(os.path.join(self.md_path, "best-awards.md")):
+            with open(os.path.join(self.md_path, "best-awards.md"), "w") as f:
+                f.writelines(temp)
+        if not os.path.exists(os.path.join(self.md_path, "role-takers.md")):
+            with open(os.path.join(self.md_path, "role-takers.md"), "w") as f:
+                f.writelines(temp)
+        if not os.path.exists(os.path.join(self.md_path, "speakers.md")):
+            with open(os.path.join(self.md_path, "speakers.md"), "w") as f:
+                f.writelines(temp)
+
 
 if __name__ == '__main__':
     ag = Agenda(md_path_dir)
