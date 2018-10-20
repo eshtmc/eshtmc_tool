@@ -1,41 +1,40 @@
 import os
 import subprocess
-from config import Message
+from config import Config
 
 class Eshtmc():
 
-    def __init__(self, repository_url):
-        self.repository_url = repository_url
-        self.path = "./eshtmc.github.io"
+    def __init__(self, config):
+        self.config = config
 
     def git_operation(self, operation):
         pass
 
     def git_clone(self):
-        if not os.path.exists(self.path):
-            cmd = "git clone " + self.repository_url
+        if not os.path.exists(self.config.repository_save_path):
+            cmd = "git clone " + self.config.repository_url
             result = subprocess.call(cmd, shell=True)
             return result
 
     def git_add(self):
         cmd = "git add ."
-        result = subprocess.call(cmd, shell=True, cwd=self.path)
+        result = subprocess.call(cmd, shell=True, cwd=self.config.repository_save_path)
         return result
 
-    def git_commit(self, message=""):
+    def git_commit(self, message=Config.Message):
         cmd = "git commit -m '{0}'".format(message)
-        result = subprocess.call(cmd, shell=True, cwd=self.path)
+        result = subprocess.call(cmd, shell=True, cwd=self.config.repository_save_path)
         return result
 
     def git_push(self):
         cmd = "git push origin master"
-        result = subprocess.call(cmd, shell=True, cwd=self.path)
+        result = subprocess.call(cmd, shell=True, cwd=self.config.repository_save_path)
         return result
 
 
 if __name__ == '__main__':
-    tm = Eshtmc("git@github.com:eshtmc/eshtmc.github.io.git")
+    tm = Eshtmc(Config)
     tm.git_clone()
     tm.git_add()
-    tm.git_commit(Message)
+    tm.git_commit()
     tm.git_push()

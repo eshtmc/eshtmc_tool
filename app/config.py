@@ -1,67 +1,63 @@
 
-NEW_DIR_TIMR = "2018.10-2018.03"
+class Config:
 
+    NEW_DIR_TIMR = "2019.10-2019.03"
 
-MEETING_COUNT = 108
-MEETING_THEME = "Imagine"
-MEETING_DATE = "2018.10.19"
-TableTopic = "Dongchen Tang, Taowen Zhang, Fang Yao, Jenny Yu, Shao Jing"
-BestTableTopicSpeech = "Taowen Zhang"
-BestPreparedSpeech = "Elivs Jiang"
-BestEvaluator = "Taowen Zhang"
-PERPARED_SPEACKERS = [{
+    MEETING_COUNT = 108
+    MEETING_THEME = "Imagine"
+    MEETING_DATE = "2018.10.19"
+    TableTopic = "Dongchen Tang, Taowen Zhang, Fang Yao, Jenny Yu, Shao Jing"
+    BestTableTopicSpeech = "Taowen Zhang"
+    BestPreparedSpeech = "Elivs Jiang"
+    BestEvaluator = "Taowen Zhang"
+    PERPARED_SPEACKERS = [{
         "project_rank": "CC-P8",
         "people_name": "Michelle Hua",
         "project_name": "The power of psychological hint"
     },
-    {
-        "project_rank": "CC-P9",
-        "people_name": "Siyaun Jia",
-        "project_name": "Let's learn making bread"
-    },
-    {
-        "project_rank": "L1-4",
-        "people_name": "Elvis Jiang",
-        "project_name": "Deja vu"
-    },
-    {
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
-    },
-    {
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
-    },
-    {
-        "project_rank": "",
-        "people_name": "",
-        "project_name": ""
+        {
+            "project_rank": "CC-P9",
+            "people_name": "Siyaun Jia",
+            "project_name": "Let's learn making bread"
+        },
+        {
+            "project_rank": "L1-4",
+            "people_name": "Elvis Jiang",
+            "project_name": "Deja vu"
+        },
+        {
+            "project_rank": "",
+            "people_name": "",
+            "project_name": ""
+        },
+        {
+            "project_rank": "",
+            "people_name": "",
+            "project_name": ""
+        },
+        {
+            "project_rank": "",
+            "people_name": "",
+            "project_name": ""
+        }
+    ]
+    ROLE_TAKERS = {
+        "TMD": "Jenny Yu",
+        "TTM": "Yi Fang",
+        "GE": "Xin Feng",
+        "IE": "Jony Zheng, Michelle Wang, Taowen Zhang",
+        "Grammarian": "Dongchen Tang",
+        "Timer": "Michelle Jin",
+        "Ah-counter": "Huihui Jiang"
     }
-]
-ROLE_TAKERS = {
-    "TMD": "Jenny Yu",
-    "TTM": "Yi Fang",
-    "GE": "Xin Feng",
-    "IE": "Jony Zheng, Michelle Wang, Taowen Zhang",
-    "Grammarian": "Dongchen Tang",
-    "Timer": "Michelle Jin",
-    "Ah-counter": "Huihui Jiang"
-}
-AttendanceName = "Dongchen Tang,Yi Fang,Taowen Zhang,Elvis Jiang,Jun Liu,Xin Feng,Michelle Wang,Jenny Yu,Hong Wang,Huihui Jiang,Liu Jun, Michelle Hua, Michelle Jin, Yao Fang, Jony Zheng"
+    AttendanceName = "Dongchen Tang,Yi Fang,Taowen Zhang,Elvis Jiang,Jun Liu,Xin Feng,Michelle Wang,Jenny Yu,Hong Wang,Huihui Jiang,Liu Jun, Michelle Hua, Michelle Jin, Yao Fang, Jony Zheng"
 
+    #  you don't need to change the value.
 
+    Message = "update {0} #{1} {2}".format(MEETING_DATE, MEETING_COUNT,
+                                           MEETING_THEME)
 
-
-
-
-
-#  you don't need to change the value.
-
-Message = "update {0} #{1} {2}".format(MEETING_DATE, MEETING_COUNT, MEETING_THEME)
-
-New_Table="""<h1>Attendance</h1>
+    New_Table = """<h1>Attendance</h1>
 <table class="table table-condensed table-bordered">
 <tr><th>Name</th></tr>
 <tr><th>Jenny Yu</th></tr>
@@ -88,23 +84,20 @@ New_Table="""<h1>Attendance</h1>
 <tr><th>Jun Liu</th></tr>
 <tr><th>Total</th></tr>
 </table>      
-"""
+    """
 
+    md_path_dir = "eshtmc.github.io/education/meetings/{0}/".format(
+        NEW_DIR_TIMR)
 
-md_path_dir = "eshtmc.github.io/education/meetings/{0}/".format(NEW_DIR_TIMR)
-
-INDEX_ADD ="""
+    INDEX_ADD = """
 ### {0}
 [attendance](https://eshtmc.github.io/education/meetings/{0}/attendance.html)
 [best-awards](https://eshtmc.github.io/education/meetings/{0}/best-awards)
 [role-takers](https://eshtmc.github.io/education/meetings/{0}/role-takers)
 [speakers](https://eshtmc.github.io/education/meetings/{0}/speakers)
-""".format(NEW_DIR_TIMR)
+    """.format(NEW_DIR_TIMR)
 
-
-
-
-HTML_ATTENDANCE_head="""
+    HTML_ATTENDANCE_head = """
 <!DOCTYPE html>
 <html lang="en-US">
   <head>
@@ -138,10 +131,10 @@ HTML_ATTENDANCE_head="""
 
     <section class="main-content">
       <h4 id="home"><a href="https://eshtmc.github.io/">Home</a></h4>
-      
+
 """
 
-HTML_ATTENDANCE_end ="""
+    HTML_ATTENDANCE_end = """
 
       <footer class="site-footer">
 
@@ -158,4 +151,5 @@ HTML_ATTENDANCE_end ="""
 
 """
 
-
+    repository_url = "git@github.com:eshtmc/eshtmc.github.io.git"
+    repository_save_path = "./eshtmc.github.io"

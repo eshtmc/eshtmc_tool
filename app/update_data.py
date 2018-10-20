@@ -3,28 +3,28 @@
 from bs4 import BeautifulSoup
 import json
 import os
-from config import *
+from config import Config
 
 class Agenda:
-    def __init__(self, md_path):
-        self.md_path = md_path
+    def __init__(self, config):
+        self.config = config
         self.create_new_record()
         self.md_type_data = {
-            "date": MEETING_DATE,
-            "count": MEETING_COUNT,
-            "theme": MEETING_THEME,
+            "date": self.config.MEETING_DATE,
+            "count": self.config.MEETING_COUNT,
+            "theme": self.config.MEETING_THEME,
             "attendance": {
-                "name": AttendanceName
+                "name": self.config.AttendanceName
             },
             "best_awards": {
-                "BTTS": BestTableTopicSpeech,
-                "BPS": BestPreparedSpeech,
-                "BE": BestEvaluator
+                "BTTS": self.config.BestTableTopicSpeech,
+                "BPS": self.config.BestPreparedSpeech,
+                "BE": self.config.BestEvaluator
             },
-            "role_takers": ROLE_TAKERS,
+            "role_takers": self.config.ROLE_TAKERS,
             "speakers": {
-                "TT": TableTopic,
-                "perpared_speackers": PERPARED_SPEACKERS,
+                "TT": self.config.TableTopic,
+                "perpared_speackers": self.config.PERPARED_SPEACKERS,
             }
         }
 
@@ -48,7 +48,7 @@ class Agenda:
                                                                      self.md_type_data["speakers"]["perpared_speackers"][i]["people_name"],
                                                                      self.md_type_data["speakers"]["perpared_speackers"][i]["project_name"])
         print(add_content)
-        with open(os.path.join(self.md_path, "speakers.md"), "a+") as f:
+        with open(os.path.join(self.config.md_path_dir, "speakers.md"), "a+") as f:
             f.writelines("\n" + add_content)
 
     def transform_str(self, key):
@@ -73,7 +73,7 @@ class Agenda:
                 add_content = add_content + "{0} {1}    \n".format(self.transform_str(key), value)
 
         print(add_content)
-        with open(os.path.join(self.md_path, "best-awards.md"), "a+") as f:
+        with open(os.path.join(self.config.md_path_dir, "best-awards.md"), "a+") as f:
             f.writelines("\n" + add_content )
 
 
@@ -95,11 +95,11 @@ class Agenda:
                 add_content = add_content + "`{0}` {1}   \n".format(key, value)
 
         print(add_content)
-        with open(os.path.join(self.md_path, "role-takers.md"), "a+") as f:
+        with open(os.path.join(self.config.md_path_dir, "role-takers.md"), "a+") as f:
             f.writelines("\n" + add_content)
 
     def save_attendance(self):
-        soup = BeautifulSoup(open(os.path.join(self.md_path, "attendance.html")), "html.parser")
+        soup = BeautifulSoup(open(os.path.join(self.config.md_path_dir, "attendance.html")), "html.parser")
         temp_n = len(soup.find_all('tr'))
         temp_head = []
         name = []
@@ -176,34 +176,34 @@ class Agenda:
                 html_content += "<th>{0}</th>".format(value)
             html_content += "</tr>\n"
         html_content += "</table>\n"
-        print(HTML_ATTENDANCE_head+html_content+HTML_ATTENDANCE_end)
-        with open(os.path.join(self.md_path, "attendance.html"), "w") as f:
-            f.writelines(HTML_ATTENDANCE_head+html_content+HTML_ATTENDANCE_end)
+        print(self.config.HTML_ATTENDANCE_head+html_content+self.config.HTML_ATTENDANCE_end)
+        with open(os.path.join(self.config.md_path_dir, "attendance.html"), "w") as f:
+            f.writelines(self.config.HTML_ATTENDANCE_head+html_content+self.config.HTML_ATTENDANCE_end)
             print("write....")
 
     def create_new_record(self):
-        print(os.path.exists(self.md_path))
-        if not os.path.exists(self.md_path):
-            os.makedirs(self.md_path)
+        print(os.path.exists(self.config.md_path_dir))
+        if not os.path.exists(self.config.md_path_dir):
+            os.makedirs(self.config.md_path_dir)
             with open("eshtmc.github.io/index.md", "a+") as f:
-                f.writelines("\n" + INDEX_ADD)
+                f.writelines("\n" + self.config.INDEX_ADD)
         temp = "#### [Home](https://eshtmc.github.io/)    \n"
-        if not os.path.exists(os.path.join(self.md_path, "attendance.html")):
-            with open(os.path.join(self.md_path, "attendance.html"), "w") as f:
-                f.writelines(HTML_ATTENDANCE_head+New_Table+HTML_ATTENDANCE_end)
-        if not os.path.exists(os.path.join(self.md_path, "best-awards.md")):
-            with open(os.path.join(self.md_path, "best-awards.md"), "w") as f:
+        if not os.path.exists(os.path.join(self.config.md_path_dir, "attendance.html")):
+            with open(os.path.join(self.config.md_path_dir, "attendance.html"), "w") as f:
+                f.writelines(self.config.HTML_ATTENDANCE_head+self.config.New_Table+self.config.HTML_ATTENDANCE_end)
+        if not os.path.exists(os.path.join(self.config.md_path_dir, "best-awards.md")):
+            with open(os.path.join(self.config.md_path_dir, "best-awards.md"), "w") as f:
                 f.writelines(temp)
-        if not os.path.exists(os.path.join(self.md_path, "role-takers.md")):
-            with open(os.path.join(self.md_path, "role-takers.md"), "w") as f:
+        if not os.path.exists(os.path.join(self.config.md_path_dir, "role-takers.md")):
+            with open(os.path.join(self.config.md_path_dir, "role-takers.md"), "w") as f:
                 f.writelines(temp)
-        if not os.path.exists(os.path.join(self.md_path, "speakers.md")):
-            with open(os.path.join(self.md_path, "speakers.md"), "w") as f:
+        if not os.path.exists(os.path.join(self.config.md_path_dir, "speakers.md")):
+            with open(os.path.join(self.config.md_path_dir, "speakers.md"), "w") as f:
                 f.writelines(temp)
 
 
 if __name__ == '__main__':
-    ag = Agenda(md_path_dir)
+    ag = Agenda(Config)
     ag.create_new_record()
     ag.save_json()
     ag.save_speakers()
