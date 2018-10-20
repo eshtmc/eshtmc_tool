@@ -1,6 +1,6 @@
 import os
 import subprocess
-
+from config import Message
 
 class Eshtmc():
 
@@ -12,9 +12,10 @@ class Eshtmc():
         pass
 
     def git_clone(self):
-        cmd = "git clone " + self.repository_url
-        result = subprocess.call(cmd, shell=True)
-        return result
+        if not os.path.exists(self.path):
+            cmd = "git clone " + self.repository_url
+            result = subprocess.call(cmd, shell=True)
+            return result
 
     def git_add(self):
         cmd = "git add ."
@@ -34,7 +35,7 @@ class Eshtmc():
 
 if __name__ == '__main__':
     tm = Eshtmc("git@github.com:eshtmc/eshtmc.github.io.git")
-    # tm.git_clone()
+    tm.git_clone()
     tm.git_add()
-    tm.git_commit("test index.md")
+    tm.git_commit(Message)
     tm.git_push()
