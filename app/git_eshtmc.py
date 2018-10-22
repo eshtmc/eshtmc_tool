@@ -2,8 +2,8 @@ import os
 import subprocess
 from config import Config
 
-class Eshtmc():
 
+class Eshtmc:
     def __init__(self, config):
         self.config = config
 
@@ -33,8 +33,9 @@ class Eshtmc():
 
 
 if __name__ == '__main__':
-    tm = Eshtmc(Config)
-    tm.git_clone()
-    tm.git_add()
-    tm.git_commit()
-    tm.git_push()
+    pass
+    # tm = Eshtmc(Config)
+    # tm.git_clone()
+    # tm.git_add()
+    # tm.git_commit()
+    # tm.git_push()

@@ -3,12 +3,11 @@
 from bs4 import BeautifulSoup
 import json
 import os
-from config import Config
+
 
 class Agenda:
     def __init__(self, config):
         self.config = config
-        self.create_new_record()
         self.md_type_data = {
             "date": self.config.MEETING_DATE,
             "count": self.config.MEETING_COUNT,
@@ -100,13 +99,11 @@ class Agenda:
 
     def save_attendance(self):
         soup = BeautifulSoup(open(os.path.join(self.config.md_path_dir, "attendance.html")), "html.parser")
-        temp_n = len(soup.find_all('tr'))
-        temp_head = []
+        temp_n = len(soup.find_all('tr'))    # row
+        temp_head = []                       # data_time
         name = []
         data = [[] for i in range(temp_n - 1)]
         for i, child_tr in enumerate(soup.find_all('tr')):
-            # print("!!")
-            # print(child_tr)
             for j, child_th in enumerate(child_tr.find_all('th')):
                 if i == 0:
                     temp_head.append(child_th.string)
@@ -114,34 +111,30 @@ class Agenda:
                     data[i-1].append(child_th.string)
                     if j == 0:
                         name.append(child_th.string)
-
-                # print(child_th.string)
-
-        #         print("-----")
-        # print(temp_head)
-        # print(data)
-
         for i in data:
             sum = 0
             for j in i[1:]:
                 if j != 0:
                     sum += int(j)
             print(i[0:1], sum, i)
+            print("test~")
 
         #  TODO up date the temp_head and data
         if self.md_type_data["date"] not in temp_head and temp_head != []:              # new record
             temp_head.append(self.md_type_data["date"])
             data[temp_n - 2].append(0)
             print(temp_head)
-            print(self.md_type_data["attendance"]["name"].split(","))
-            temp_attendance_name_list = self.md_type_data["attendance"]["name"]. split(",")
-            print(data[:temp_n-1])
+            print(00, self.md_type_data["attendance"]["name"].split(","))
+            temp_attendance_name_list = list(set(x.strip() for x in self.md_type_data["attendance"]["name"].split(",")))   # remove blank,
+            print(temp_attendance_name_list)
+            print(11, data[:temp_n-1])
             for k, value in enumerate(data[:temp_n-2]):
                 # print(k, value)
                 if value[0] in temp_attendance_name_list:
                     data[k].append(1)
-                    data[temp_n-2][len(temp_head)-1] += 1
+                    data[temp_n-2][len(temp_head)-1] += 1                  # total + 1
                     temp_attendance_name_list.remove(value[0])
+                    print("remove", value[0], temp_attendance_name_list)
                 else:
                     data[k].append(0)
 
@@ -159,9 +152,6 @@ class Agenda:
                     data.insert(temp_n-2+i, temp_list)
         else:                                                        # update the record
             pass                                                     # Avoid unnecessary changes not supported it
-
-        # print(temp_head)
-        # print(data)
 
         html_content = """<h1>Attendance</h1>
 <table class="table table-condensed table-bordered">
@@ -203,10 +193,11 @@ class Agenda:
 
 
 if __name__ == '__main__':
-    ag = Agenda(Config)
-    ag.create_new_record()
-    ag.save_json()
-    ag.save_speakers()
-    ag.save_best_awards()
-    ag.save_role_takers()
-    ag.save_attendance()
+    pass
+    # ag = Agenda(Config)
+    # ag.create_new_record()
+    # ag.save_json()
+    # ag.save_speakers()
+    # ag.save_best_awards()
+    # ag.save_role_takers()
+    # ag.save_attendance()

@@ -1,7 +1,7 @@
 
 class Config:
 
-    NEW_DIR_TIMR = "2019.10-2019.03"
+    NEW_DIR_TIMR = "2018.10-2018.03"
 
     MEETING_COUNT = 108
     MEETING_THEME = "Imagine"
@@ -50,7 +50,7 @@ class Config:
         "Timer": "Michelle Jin",
         "Ah-counter": "Huihui Jiang"
     }
-    AttendanceName = "Dongchen Tang,Yi Fang,Taowen Zhang,Elvis Jiang,Jun Liu,Xin Feng,Michelle Wang,Jenny Yu,Hong Wang,Huihui Jiang,Liu Jun, Michelle Hua, Michelle Jin, Yao Fang, Jony Zheng"
+    AttendanceName = "Dongchen Tang,Yi Fang,Taowen Zhang,Elvis Jiang,Jun Liu,Xin Feng,Michelle Wang,Jenny Yu,Hong Wang,Huihui Jiang,Michelle Hua, Michelle Jin, Yao Fang, Jony Zheng"
 
     #  you don't need to change the value.
 
