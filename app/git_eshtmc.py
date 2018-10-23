@@ -14,7 +14,19 @@ class Eshtmc:
         if not os.path.exists(self.config.repository_save_path):
             cmd = "git clone " + self.config.repository_url
             result = subprocess.call(cmd, shell=True)
+            self.git_config()
             return result
+
+    def git_config(self):
+        cmd1 = "git config --local --add user.name {0}".format("eshtmc")
+        cmd2 = "git config --local --add user.email {0}".format("github@eshtmc.com")
+        subprocess.call(cmd1, shell=True, cwd=self.config.repository_save_path)
+        subprocess.call(cmd2, shell=True, cwd=self.config.repository_save_path)
+
+    def git_pull(self):
+        cmd = "git pull --rebase"
+        result = subprocess.call(cmd, shell=True, cwd=self.config.repository_save_path)
+        return result
 
     def git_add(self):
         cmd = "git add ."
@@ -27,6 +39,7 @@ class Eshtmc:
         return result
 
     def git_push(self):
+        self.git_pull()
         cmd = "git push origin master"
         result = subprocess.call(cmd, shell=True, cwd=self.config.repository_save_path)
         return result
